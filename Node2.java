@@ -1,6 +1,7 @@
 public class Node2 implements Node{
 	private int nodes = 4;
 	private int[][] distance_table = new int[nodes][nodes];
+	private int my_id = 2;
 	private final int INFINITY = 2147483647;
 	public Node2(){
 		rtinit();
