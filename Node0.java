@@ -14,10 +14,10 @@ public class Node0 implements Node{
 				distance_table[i][j] = INFINITY;
 			}		
 		}
-		distance_table[0][0] = 0;
-		distance_table[0][1] = 1;
-		distance_table[0][2] = 3;
-		distance_table[0][3] = 7;		
+		distance_table[nodeId][0] = 0;
+		distance_table[nodeId][1] = 1;
+		distance_table[nodeId][2] = 3;
+		distance_table[nodeId][3] = 7;		
 	}
 	public void rtupdate(Packet rcvdpkt){
 		int distCost;
@@ -34,6 +34,7 @@ public class Node0 implements Node{
 				//update our distance_table
 				distance_table[nodeId][i] = distCost + cost;
 				//notify neighbor nodes
+				
 			}
 		}
 	}

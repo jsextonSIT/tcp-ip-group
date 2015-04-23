@@ -1,4 +1,4 @@
 public interface Node{
 	void rtinit();
-	void rtupdate();
+	void rtupdate(Packet rcvdpkt);
 }
