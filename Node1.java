@@ -1,10 +1,11 @@
 public class Node1 implements Node{
-	private int[][] distance_table;
+	private int nodes = 4;
+	private int[][] distance_table = new int[nodes][nodes];
 	private final int INFINITY = 2147483647;
-	public Node0(){
-		rtinit0();
+	public Node1(){
+		rtinit();
 	}
-	public void rtinit0(){
+	public void rtinit(){
 		int nodes = 4;
 		distance_table = new int[nodes][nodes];
 		for(int i = 0; i < nodes; i++){
