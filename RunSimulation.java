@@ -18,6 +18,6 @@ public class RunSimulation{
 		mailbox[dest].add(p);
 	}
 	public static Packet rcv_message(int id){
-		return mailbox[id].take();
+		return (Object) mailbox[id].take();
 	}
 }

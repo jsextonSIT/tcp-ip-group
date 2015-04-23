@@ -1,4 +1,4 @@
-public interface Node{
+public interface Node extends Runnable{
 	void rtinit();
-	void rtupdate();
+	void rtupdate(Packet rcvdpkt);
 }
