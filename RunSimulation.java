@@ -1,7 +1,10 @@
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.TimeUnit;
+
+
 public class RunSimulation{
 	public static ArrayBlockingQueue[] mailbox = new ArrayBlockingQueue[4];
-	
+	public static final int timeout = 8; //number of seconds to wait before deciding that its over
 	public static void main(String[] args){
 		init_mailbox();
 		
@@ -15,9 +18,9 @@ public class RunSimulation{
 
 	public static void send_message(Packet p){
 		int dest = p.destId;
-		mailbox[dest].add(p);
+		mailbox[dest].add((Object) p);
 	}
-	public static Packet rcv_message(int id){
-		return (Object) mailbox[id].take();
+	public static Packet rcv_message(int id) throws Exception{
+		return (Packet) mailbox[id].poll(timeout, TimeUnit.SECONDS);
 	}
 }

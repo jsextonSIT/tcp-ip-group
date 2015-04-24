@@ -10,7 +10,7 @@ public class Node{
 	public Node(int id, int[] distances){
 		nodeId = id;
 		for(int i=0; i<nodes; i++){
-			if(distances >= 0){	
+			if(distances[i] >= 0){	
 				distance_table[nodeId][i] = distances[i];
 			}else{
 				distance_table[nodeId][i] = INFINITY;
@@ -20,9 +20,17 @@ public class Node{
 
 	public void run(){
 		rtinit();
-		while(true){
-			Packet p = RunSimulation.rcv_message();
-			rtupdate(p);
+		try{
+			while(true){
+				Packet p = RunSimulation.rcv_message(nodeId);
+				if(p != null){					
+					rtupdate(p);
+				}else{
+					break;
+				}
+			}
+		}catch(Exception e){
+			System.out.println(e.toString());
 		}
 	}
 
@@ -43,6 +51,15 @@ public class Node{
 				neighbors[q] = false;
 			} else {
 				neighbors[q] = true;
+			}
+		}
+
+		//temporary packet
+		Packet packet;
+		for(int i = 0; i < nodes; i++){
+			if(neighbors[i] && i != nodeId){
+				packet = new Packet(nodeId, i, distance_table[nodeId]);
+				RunSimulation.send_message(packet);
 			}
 		}
 	}
