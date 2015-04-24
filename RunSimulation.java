@@ -4,7 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 public class RunSimulation{
 	public static ArrayBlockingQueue[] mailbox = new ArrayBlockingQueue[4];
-	public static final int timeout = 8; //number of seconds to wait before deciding that its over
+	public static final int timeout = 15; //number of seconds to wait before deciding that its over
 	public static void main(String[] args){
 		init_mailbox();
 		int[] arr1 = {0,1,3,7};

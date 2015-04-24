@@ -70,6 +70,7 @@ public class Node{
 		//get the cost of this node to the target - srcId
 		int cost = distance_table[nodeId][srcId];
 		Packet update;
+		
 		for (int i = 0; i < nodes; i++){
 			//get the distance cost from target node to each node
 			distCost = minCost[i];
@@ -80,6 +81,7 @@ public class Node{
 				//notify neighbor nodes
 				
 				for(int y = 0; y < nodes; y++){
+					distance_table[srcId][y] = minCost[y];
 					//don't send to yourself and send to your neighbors
 					if((y != nodeId) && neighbors[y]){
 						//prepare our packet
@@ -91,6 +93,7 @@ public class Node{
 				
 			}
 		}
+		printTable(nodeId, distance_table);
 	}
 	public static void printTable(int srcId, int[][] distTable){
 		String row1, row2, row3;
