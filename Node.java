@@ -1,7 +1,7 @@
 public class Node{
 	private int nodeId;
 	private final int nodes = 4;
-	private final int INFINITY = 2147483647;
+	private final static int INFINITY = 2147483647;
 
 	private int[][] distance_table = new int[nodes][nodes];
 	
@@ -91,6 +91,34 @@ public class Node{
 				
 			}
 		}
+	}
+	public static void printTable(int srcId, int[][] distTable){
+		String row1, row2, row3;
+		int[] otherNodes = new int[3];
+		String[][] printArr = new String[3][3];
+		int num = 0, num2;
+		for(int i = 0; i < 4; i++){
+			if(i != srcId){
+				otherNodes[num] = i;
+				num2 = 0;
+				for(int y = 0; y < 4; y++){
+					if(y != srcId){
+						printArr[num][num2] = (distTable[i][y] == INFINITY) ? "I" : Integer.toString(distTable[i][y]);
+						num2++;
+					}
+				}
+				num++;
+			}
+		}
+		row1 = "         "+otherNodes[0]+"|    "+printArr[0][0]+"    "+printArr[0][1]+"    "+printArr[0][2];
+		row2 = "         "+otherNodes[1]+"|    "+printArr[1][0]+"    "+printArr[1][1]+"    "+printArr[1][2];
+		row3 = "         "+otherNodes[2]+"|    "+printArr[2][0]+"    "+printArr[2][1]+"    "+printArr[2][2];
+		System.out.println("");
+		System.out.println("   Node "+srcId+" |    "+otherNodes[0]+"    "+otherNodes[1]+"    "+otherNodes[2]+" ");
+		System.out.println("__________|________________");
+		System.out.println(row1);
+		System.out.println(row2);
+		System.out.println(row3);
 	}
 
 	
