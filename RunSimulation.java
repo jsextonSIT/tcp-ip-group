@@ -7,7 +7,10 @@ public class RunSimulation{
 	public static final int timeout = 8; //number of seconds to wait before deciding that its over
 	public static void main(String[] args){
 		init_mailbox();
-		
+		(new Node(0, {0,1,3,7})).start();
+		(new Node(1, {1,0,1,-1})).start();
+		(new Node(2, {3,1,0,2})).start();
+		(new Node(3, {7,-1,2,0})).start();
 	}
 
 	public static void init_mailbox(){
