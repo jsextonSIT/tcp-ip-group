@@ -1,4 +1,4 @@
-public class Node{
+public class Node implements Runnable{
 	private int nodeId;
 	private final int nodes = 4;
 	private final static int INFINITY = 2147483647;
@@ -38,7 +38,7 @@ public class Node{
 			}
 		}catch(Exception e){
 			System.out.println(e.toString());
-		}
+		}printTable(nodeId, distance_table);
 	}
 
 	public void rtinit(){
@@ -55,6 +55,7 @@ public class Node{
 
 		//temporary packet
 		Packet packet;
+		System.out.println("Numthreads: " + Thread.activeCount());
 		for(int i = 0; i < nodes; i++){
 			if(neighbors[i] && i != nodeId){
 				packet = new Packet(nodeId, i, distance_table[nodeId]);
@@ -69,13 +70,16 @@ public class Node{
 		int minCost[] = rcvdpkt.minCost;
 		//get the cost of this node to the target - srcId
 		int cost = distance_table[nodeId][srcId];
+		for (int k = 0; k < nodes; k++){
+			distance_table[srcId][k]=minCost[k];
+		}
 		Packet update;
 		
 		for (int i = 0; i < nodes; i++){
 			//get the distance cost from target node to each node
 			distCost = minCost[i];
 			//check if the cost from node to target to another node is less than the cost of node to another node
-			if((distCost + cost) < distance_table[nodeId][i]){
+			if((distCost + cost) < distance_table[nodeId][i] && distCost >= 0 && cost >= 0 && (distCost + cost) >= 0){
 				//update our distance_table
 				distance_table[nodeId][i] = distCost + cost;
 				//notify neighbor nodes
@@ -93,35 +97,33 @@ public class Node{
 				
 			}
 		}
-		printTable(nodeId, distance_table);
+		//printTable(nodeId, distance_table);
 	}
 	public static void printTable(int srcId, int[][] distTable){
-		String row1, row2, row3;
-		int[] otherNodes = new int[3];
-		String[][] printArr = new String[3][3];
+		String row1, row2, row3, row4;
+		int[] otherNodes = new int[4];
+		String[][] printArr = new String[4][4];
 		int num = 0, num2;
 		for(int i = 0; i < 4; i++){
-			if(i != srcId){
-				otherNodes[num] = i;
-				num2 = 0;
-				for(int y = 0; y < 4; y++){
-					if(y != srcId){
-						printArr[num][num2] = (distTable[i][y] == INFINITY) ? "I" : Integer.toString(distTable[i][y]);
-						num2++;
-					}
-				}
-				num++;
+			otherNodes[num] = i;
+			num2 = 0;
+			for(int y = 0; y < 4; y++){
+				printArr[num][num2] = (distTable[i][y] == INFINITY) ? "I" : Integer.toString(distTable[i][y]);
+				num2++;
 			}
+			num++;
 		}
-		row1 = "         "+otherNodes[0]+"|    "+printArr[0][0]+"    "+printArr[0][1]+"    "+printArr[0][2];
-		row2 = "         "+otherNodes[1]+"|    "+printArr[1][0]+"    "+printArr[1][1]+"    "+printArr[1][2];
-		row3 = "         "+otherNodes[2]+"|    "+printArr[2][0]+"    "+printArr[2][1]+"    "+printArr[2][2];
+		row1 = "         "+otherNodes[0]+"|    "+printArr[0][0]+"    "+printArr[0][1]+"    "+printArr[0][2]+"    "+printArr[0][3];
+		row2 = "         "+otherNodes[1]+"|    "+printArr[1][0]+"    "+printArr[1][1]+"    "+printArr[1][2]+"    "+printArr[1][3];
+		row3 = "         "+otherNodes[2]+"|    "+printArr[2][0]+"    "+printArr[2][1]+"    "+printArr[2][2]+"    "+printArr[2][3];
+		row4 = "         "+otherNodes[3]+"|    "+printArr[3][0]+"    "+printArr[3][1]+"    "+printArr[3][2]+"    "+printArr[3][3];
 		System.out.println("");
-		System.out.println("   Node "+srcId+" |    "+otherNodes[0]+"    "+otherNodes[1]+"    "+otherNodes[2]+" ");
-		System.out.println("__________|________________");
+		System.out.println("   Node "+srcId+" |    "+otherNodes[0]+"    "+otherNodes[1]+"    "+otherNodes[2]+"    "+otherNodes[3]+" ");
+		System.out.println("__________|___________________");
 		System.out.println(row1);
 		System.out.println(row2);
 		System.out.println(row3);
+		System.out.println(row4);
 	}
 
 	
